@@ -1,0 +1,41 @@
+.App{
+    display: flex;
+    justify-content: center;
+    background-color: gray;
+    align-self: center;
+}
+.drop{
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 2px solid;
+    min-width: 500px;
+    gap: 15px;
+}
+
+.itemycontener{
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    gap: 5px;
+}
+
+.teambox{
+    display: flex;
+    flex-direction: column;
+}
+
+.teamlabel{
+    margin-right: 5px;
+}
+
+.enemy{
+    display: flex;
+    flex-direction: column;
+}
+
+.enemybox{
+    min-width: 300px;
+}
