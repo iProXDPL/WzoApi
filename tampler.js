@@ -1,16 +1,3 @@
-// ==UserScript==
-// @name         LootInfo
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
-// @author       You
-// @match        https://tempest.margonem.pl/
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=margonem.pl
-// @require      file:///C:/Users/desig/Documents/LootWzO/tampler.js
-// @grant        GM.xmlHttpRequest
-// ==/UserScript==
-
-
 function zapiszloot() {
   var itemy = [];
   var team = [];
