@@ -26,7 +26,6 @@ function Last(allData) {
   if (allData.hasOwnProperty("loot")) {
     Object.assign(send, { loot: Object.values(allData.item) });
   }
-  Object.assign(send, { ev: allData.ev });
   Object.assign(send, { Endat: new Date().toJSON() });
 
   if (
@@ -141,7 +140,6 @@ function lootchat() {
             msg.push(txt);
           }
         });
-        console.log(msg);
         updatevsMob(msg);
       }
     }
