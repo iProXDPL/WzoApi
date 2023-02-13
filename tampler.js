@@ -20,15 +20,17 @@ function First(allData) {
   });
   Object.assign(send, { team: team });
   Object.assign(send, { enemy: enemy });
+  Object.assign(send, { Startat: new Date().toJSON() });
 }
 function Last(allData) {
   if (allData.hasOwnProperty("loot")) {
     Object.assign(send, { loot: Object.values(allData.item) });
   }
   Object.assign(send, { ev: allData.ev });
-  Object.assign(send, { data: new Date().toJSON() });
+  Object.assign(send, { Endat: new Date().toJSON() });
+
   if (
-    send.loot !== undefined &&
+    send.hasOwnProperty("loot") &&
     send.loot.length !== 0 &&
     send.enemy[0].id < 0
   ) {
@@ -43,16 +45,16 @@ function Last(allData) {
       Object.assign(send, { kto: k });
     }
   }
-  if (send.hasOwnProperty("team")) {
-    if (send.enemy[0].id < 0) {
-      //Mob
+  if (send.enemy[0].id < 0) {
+    //Mob
+    if (send.hasOwnProperty("loot")) {
       sendvsMob(send);
-      mlog = [];
-    } else {
-      Object.assign(send, { log: mlog });
-      sendvsPlayer(send);
-      mlog = [];
     }
+    mlog = [];
+  } else {
+    Object.assign(send, { log: mlog });
+    sendvsPlayer(send);
+    mlog = [];
   }
 }
 
@@ -78,9 +80,11 @@ function start() {
   var tmp = Engine.battle.updateData;
   Engine.battle.updateData = (data, allData) => {
     var ret = tmp(data, allData);
-    allData.f.m.forEach((txt) => {
-      mlog.push(txt);
-    });
+    if (allData.f.m !== undefined) {
+      allData.f.m.forEach((txt) => {
+        mlog.push(txt);
+      });
+    }
     if (
       allData.hasOwnProperty("dead") &&
       allData.hasOwnProperty("matchmaking_state")

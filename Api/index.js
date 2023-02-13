@@ -15,10 +15,17 @@ app.use(express.json());
 
 app.post("/addvsMob", async (req, res) => {
   try {
-    const database = client.db("walki");
-    const test = database.collection("vsMob");
-    var result = await test.insertOne(req.body);
-    console.log(`Dodano walkę z itemem ${result.insertedId}`);
+    if (req.body.Startat !== undefined) {
+      const database = client.db("walki");
+      const test = database.collection("vsMob");
+      const el = await test.find({ Startat: req.body.Startat }).toArray();
+      if (el.length == 0) {
+        const result = await test.insertOne(req.body);
+        console.log(`Dodano walkę z itemem ${result.insertedId}`);
+      } else {
+        console.log("Istnieje już taka walka z mobem");
+      }
+    }
   } catch (error) {
     console.log(error);
   }
@@ -38,12 +45,12 @@ app.get("/vsMob", async (req, res) => {
 app.post("/updatevsMob", async (req, res) => {
   try {
     res.sendStatus(200);
-    if (req.body.ev !== undefined) {
+    if (req.body.Startat !== undefined) {
       const database = client.db("walki");
       const test = await database
         .collection("vsMob")
         .updateOne(
-          { ev: parseFloat(req.body.ev) },
+          { ev: parseFloat(req.body.Startat) },
           { $set: { kto: req.body.kto } }
         );
     }
@@ -54,10 +61,18 @@ app.post("/updatevsMob", async (req, res) => {
 
 app.post("/addvsPlayer", async (req, res) => {
   try {
-    const database = client.db("walki");
-    const test = database.collection("vsPlayer");
-    var result = await test.insertOne(req.body);
-    console.log(`Walkę z graczem ${result.insertedId}`);
+    if (req.body.Startat !== undefined) {
+      const database = client.db("walki");
+      const test = database.collection("vsPlayer");
+      const el = await test.find({ Startat: req.body.Startat }).toArray();
+      if (el.length == 0) {
+        var result = await test.insertOne(req.body);
+        console.log(`Walkę z graczem ${result.insertedId}`);
+      } else {
+        test.updateOne({ Startat: req.body.Startat }, { $set: req.body });
+        console.log("Update walka");
+      }
+    }
   } catch (error) {
     console.log(error);
   }
@@ -69,23 +84,6 @@ app.get("/vsPlayer", async (req, res) => {
     const database = client.db("walki");
     const test = await database.collection("vsPlayer").find({}).toArray();
     res.json(test);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.post("/updatevsPlayer", async (req, res) => {
-  try {
-    res.sendStatus(200);
-    if (req.body.ev !== undefined) {
-      const database = client.db("walki");
-      const test = await database
-        .collection("vsPlayer")
-        .updateOne(
-          { ev: parseFloat(req.body.ev) },
-          { $set: { log: req.body.log } }
-        );
-    }
   } catch (error) {
     console.log(error);
   }
