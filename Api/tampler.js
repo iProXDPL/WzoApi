@@ -1,5 +1,6 @@
 var send = {};
 var mlog = [];
+var urlapi = "http://127.0.0.1:8080";
 function oneClick(allData) {
   //One click
   First(allData);
@@ -151,15 +152,12 @@ function sendvsMob(send) {
   var data = JSON.stringify(send);
   $.ajax({
     type: "POST",
-    url: "http://127.0.0.1:8080/addvsMob",
+    url: urlapi + "/addvsMob",
     data: data,
     headers: {
       "Content-Type": "application/json",
     },
     dataType: "json",
-    success: function (res) {
-      console.log(res);
-    },
   });
 }
 
@@ -167,15 +165,12 @@ function sendvsPlayer(send) {
   var data = JSON.stringify(send);
   $.ajax({
     type: "POST",
-    url: "http://127.0.0.1:8080/addvsPlayer",
+    url: urlapi + "/addvsPlayer",
     data: data,
     headers: {
       "Content-Type": "application/json",
     },
     dataType: "json",
-    success: function (res) {
-      console.log(res);
-    },
   });
 }
 
@@ -183,14 +178,11 @@ function updatevsMob(data) {
   var data = JSON.stringify({ ev: send.ev, kto: data });
   $.ajax({
     type: "POST",
-    url: "http://127.0.0.1:8080/updatevsMob",
+    url: urlapi + "/updatevsMob",
     data: data,
     headers: {
       "Content-Type": "application/json",
     },
     dataType: "json",
-    success: function (res) {
-      console.log(res);
-    },
   });
 }

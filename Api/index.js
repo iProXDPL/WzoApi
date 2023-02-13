@@ -2,7 +2,8 @@ const express = require("express");
 var MongoClient = require("mongodb").MongoClient;
 var cors = require("cors");
 const dotenv = require("dotenv");
-
+var Obfuscator = require("javascript-obfuscator");
+const fs = require("fs");
 dotenv.config();
 const uri = process.env.db;
 const app = express();
@@ -83,10 +84,22 @@ app.get("/vsPlayer", async (req, res) => {
   try {
     const database = client.db("walki");
     const test = await database.collection("vsPlayer").find({}).toArray();
+
     res.json(test);
   } catch (error) {
     console.log(error);
   }
+});
+
+app.get("/tampler.js", async (req, res) => {
+  fs.readFile("./tampler.js", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    let ob = Obfuscator.obfuscate(data);
+    res.send(ob.getObfuscatedCode());
+  });
 });
 
 app.listen(PORT, () => {
